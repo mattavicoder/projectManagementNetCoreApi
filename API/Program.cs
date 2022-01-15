@@ -1,7 +1,11 @@
 
+using Application.Activities;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistence.SeedData;
+using AutoMapper;
+using Application.AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +18,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(opt => {
     opt.UseSqlite(connectionString: builder.Configuration.GetConnectionString("DefaultConnection")); 
 });
+
+builder.Services.AddMediatR(typeof(List.Handler).Assembly);
+builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+// builder.Services.AddCors(options => {
+//     options.AddPolicy("RFCore", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+// });
 
 try
 {
@@ -38,6 +48,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(builder => 
+    builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod()
+);
 
 //app.UseHttpsRedirection();
 
