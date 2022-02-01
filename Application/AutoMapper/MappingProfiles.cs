@@ -12,6 +12,7 @@ namespace Application.AutoMapper
         public MappingProfiles()
         {
             CreateMap<Activity, Activity>();
+            CreateMap<Domain.Project, Domain.Project>();
         }
     }
 }

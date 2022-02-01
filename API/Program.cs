@@ -30,6 +30,7 @@ try
     var contextService = builder.Services.BuildServiceProvider().GetService<DataContext>();
     await contextService!.Database.MigrateAsync();
     await ActivitiesDataSeed.SetActivitesData(contextService);
+    await ProjectsDataSeed.SetProjectsDataSeed(contextService);
 }
 catch(Exception ex)
 {
