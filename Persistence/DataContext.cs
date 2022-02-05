@@ -14,5 +14,9 @@ namespace Persistence
 
         public DbSet<Project> Project {get;set;}
 
+        public DbSet<User> User {get;set;}
+
+        public DbSet<UserTasks> UserTasks {get;set;}
+
     }
 }

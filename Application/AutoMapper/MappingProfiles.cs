@@ -13,6 +13,8 @@ namespace Application.AutoMapper
         {
             CreateMap<Activity, Activity>();
             CreateMap<Domain.Project, Domain.Project>();
+            CreateMap<Domain.User, Domain.User>();
+            CreateMap<UserTasks, UserTasks>();
         }
     }
 }
