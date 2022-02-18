@@ -10,9 +10,9 @@ namespace Application.Project
 {
     public class List
     {
-        public class Query: IRequest<List<Domain.Project>>{}
+        public class Query: IRequest<Result<List<Domain.Project>>>{}
 
-        public class Handler : IRequestHandler<Query, List<Domain.Project>>
+        public class Handler : IRequestHandler<Query, Result<List<Domain.Project>>>
         {
             private readonly DataContext _context;
 
@@ -21,9 +21,9 @@ namespace Application.Project
                 _context = context;
             }
 
-            public async Task<List<Domain.Project>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<Domain.Project>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Project.ToListAsync();
+                return Result<List<Domain.Project>>.Success(await _context.Project.ToListAsync());
             }
         }
     }

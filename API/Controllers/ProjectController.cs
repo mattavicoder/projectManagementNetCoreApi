@@ -15,33 +15,33 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Domain.Project>>> GetProjects()
+        public async Task<IActionResult> GetProjects()
         {
-            return await Mediator.Send(new List.Query());
+            return HandleResult(await Mediator.Send(new List.Query()));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Domain.Project>> GetProject(int id)
+        public async Task<IActionResult> GetProject(int id)
         {
-            return await Mediator.Send(new Details.Query(){Id = id});
+            return HandleResult(await Mediator.Send(new Details.Query(){Id = id}));
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateProject([FromBody] Domain.Project project)
         {
-            return Ok(await Mediator.Send(new Create.Command(){Project = project}));
+            return HandleResult(await Mediator.Send(new Create.Command(){Project = project}));
         }
 
         [HttpPut]
         public async Task<IActionResult> Edit([FromBody] Domain.Project project)
         {
-            return Ok(await Mediator.Send(new Edit.Command(){Project = project}));
+            return HandleResult(await Mediator.Send(new Edit.Command(){Project = project}));
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            return Ok(await Mediator.Send(new Delete.Command(){Id = id}));
+            return HandleResult(await Mediator.Send(new Delete.Command(){Id = id}));
         }
     }
 }

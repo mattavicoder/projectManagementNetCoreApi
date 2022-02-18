@@ -1,0 +1,1 @@
+dotnet ef migrations -p Persistence -s Api add 'comment'

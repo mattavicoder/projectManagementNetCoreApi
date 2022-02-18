@@ -6,12 +6,16 @@ using Persistence;
 using Persistence.SeedData;
 using AutoMapper;
 using Application.AutoMapper;
+using FluentValidation.AspNetCore;
+using Application.Project;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddFluentValidation((config) => {
+    config.RegisterValidatorsFromAssemblyContaining<ProjectValidator>();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -19,7 +23,7 @@ builder.Services.AddDbContext<DataContext>(opt => {
     opt.UseSqlite(connectionString: builder.Configuration.GetConnectionString("DefaultConnection")); 
 });
 
-builder.Services.AddMediatR(typeof(List.Handler).Assembly);
+builder.Services.AddMediatR(typeof(Application.Project.List.Handler).Assembly);
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 // builder.Services.AddCors(options => {
 //     options.AddPolicy("RFCore", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());

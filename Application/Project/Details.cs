@@ -9,9 +9,9 @@ namespace Application.Project
 {
     public class Details
     {
-        public class Query: IRequest<Domain.Project>{public int Id { get; set; }}
+        public class Query: IRequest<Result<Domain.Project>>{public int Id { get; set; }}
 
-        public class Handler : IRequestHandler<Query, Domain.Project>
+        public class Handler : IRequestHandler<Query, Result<Domain.Project>>
         {
             private readonly DataContext context;
 
@@ -20,9 +20,12 @@ namespace Application.Project
                 this.context = context;
             }
 
-            public async Task<Domain.Project> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<Domain.Project>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await this.context.Project.FindAsync(request.Id);
+                var project = await this.context.Project.FindAsync(request.Id);
+
+                if(project == null) return null;
+                return Result<Domain.Project>.Success(project);
             }
         }
     }

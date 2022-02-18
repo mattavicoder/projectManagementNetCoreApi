@@ -9,12 +9,12 @@ namespace Application.Project
 {
     public class Delete
     {
-        public class Command: IRequest
+        public class Command: IRequest<Result<Unit>>
         {
             public int Id {get;set;}
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext context;
 
@@ -23,14 +23,15 @@ namespace Application.Project
                 this.context = context;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var project = await this.context.Project.FindAsync(request.Id);
 
                 this.context.Project.Remove(project);
-                await this.context.SaveChangesAsync();
+                var changes  = await this.context.SaveChangesAsync() > 0;
 
-                return Unit.Value;
+                if(!changes) return Result<Unit>.Failure("Failed to Delete the Project");
+                return Result<Unit>.Success(Unit.Value);
             }
         }
     }
