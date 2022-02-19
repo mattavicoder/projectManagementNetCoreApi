@@ -9,7 +9,7 @@ namespace Application.User
 {
     public class Delete
     {
-        public class Command: IRequest{public int Id {get;set;}}
+        public class Command : IRequest { public int Id { get; set; } }
 
         public class Handler : IRequestHandler<Command>
         {
@@ -22,9 +22,9 @@ namespace Application.User
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var user = await this.context.User.FindAsync(request.Id);
-                this.context.User.Remove(user);
-                await this.context.SaveChangesAsync();
+                // var user = await this.context.User.FindAsync(request.Id);
+                // this.context.User.Remove(user);
+                // await this.context.SaveChangesAsync();
 
                 return Unit.Value;
             }

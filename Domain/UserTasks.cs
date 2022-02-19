@@ -11,7 +11,6 @@ namespace Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [ForeignKey("User")]
         public int UserId { get; set; }
 
         [ForeignKey("Project")]
